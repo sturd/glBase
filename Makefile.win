@@ -1,0 +1,39 @@
+##----------------------------------------------------------------------------
+# Created with genmake.pl v1.1 on Tue May 17 15:11:48 2011
+# genmake.pl home: http://muquit.com/muquit/software/
+# Copryright: GNU GPL (http://www.gnu.org/copyleft/gpl.html)
+##----------------------------------------------------------------------------
+
+CC= cl
+#DEFS=  -nologo -DSTRICT -G3 -Ow -W3 -Zp -Tp
+DEFS=  -nologo -G3
+PROGNAME= test.exe
+LINKER=link -nologo
+
+INCLUDES=  -I. 
+
+# don't define -DSYS_WIN32.. win2k complains
+DEFINES= $(INCLUDES) $(DEFS) -DWINNT=1 
+
+CFLAGS= $(DEFINES)
+GUIFLAGS=user32.lib gdi32.lib winmm.lib comdlg32.lib comctl32.lib
+WINSOCK_LIB=wsock32.lib
+LIBS=$(WINSOCK_LIB) $(GUIFLAGS) -lGL -lSDL -lSDL_mixer -lboost_thread
+RC=rc
+RCVARS=-r -DWIN32
+
+SRCS = src/net/error.cpp src/net/data.cpp src/net/client_list.cpp src/net/server_sock.cpp src/net/client_sock.cpp src/net/socket_core.cpp src/sprite/tga.cpp src/sprite/sprite.cpp src/env/leveldata.cpp 
+
+OBJS = src/net/error.obj src/net/data.obj src/net/client_list.obj src/net/server_sock.obj src/net/client_sock.obj src/net/socket_core.obj src/sprite/tga.obj src/sprite/sprite.obj src/env/leveldata.obj 
+
+.c.obj:
+	$(CC) $(CFLAGS) -c $< -Fo$@
+
+all: $(PROGNAME)
+
+$(PROGNAME) : $(OBJS)
+	$(LINKER) $(OBJS) /OUT:$(PROGNAME) $(LIBS)
+
+clean:
+	del $(OBJS) $(PROGNAME) core
+
