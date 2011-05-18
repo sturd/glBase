@@ -26,6 +26,7 @@
 #pragma once
 
 #include "../../main.h"
+#include "../net/player_data.h"
 #include "tga.h"
 
 class sprite
@@ -64,7 +65,7 @@ public:
 					sprite( char * );
 				   ~sprite( void );
 
-   	std::string		get_player_data();
+   	//std::string		get_player_data();
 	int				GetXVel( void );
 	int				GetYVel( void );
 
@@ -76,4 +77,6 @@ public:
 	void			Reverse( void );
 	void			TogglePause( void );
 	void			Rotate( float );
+	
+	player_data	   *get_player_data();
 };

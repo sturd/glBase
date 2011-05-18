@@ -69,3 +69,12 @@ void client_socket::Send()
 	else if( newData == PACKET_STAT_CONN_EXI )
 		std::cout << "Connection already exists with server." << std::endl;
 }
+
+void client_socket::send_player_data( player_data *data )
+{
+	net_data game_data( data );
+	data_size = sizeof( game_data );
+	if( sendto( sock, ( const char * )&game_data, data_size, 0,
+		( struct sockaddr * )&server_addr, sizeof( server_addr ) ) != data_size )
+			SocketError( "Unable to send game data." );
+}

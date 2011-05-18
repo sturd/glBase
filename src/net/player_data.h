@@ -48,5 +48,6 @@ public:
 					player_data( const player_data & );
 	player_data	   &operator=( const player_data & );
 
+	int				get_height();
 	
 };

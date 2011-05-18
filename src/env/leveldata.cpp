@@ -33,7 +33,14 @@ using namespace std;
 LevelData::LevelData( int socket_mode )
 {
 	sonic = new sprite( "media/image/run.tga", 100, 100, 8 );
-	net_core = new socket_core( socket_mode, "192.168.0.3", 1987 );
+	
+	player_data *new_data = sonic->get_player_data();
+	
+	net_core = new socket_core( socket_mode, "127.0.1.1", 1987 );
+	
+	if( socket_mode == SOCKET_CLIENT )
+		net_core->send_player_data( new_data );
+	
 	key_right_down = false;
 	key_left_down = false;
 	key_up_down = false;

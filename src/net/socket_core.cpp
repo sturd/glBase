@@ -40,7 +40,11 @@ socket_core::socket_core( int sock_mode, const char *addr = DEFAULT_IP, unsigned
 		core_srv = new server_socket( port );
 	}
 	else
+	{
 		core_cnt = new client_socket( port, addr );
+		core_cnt->Send();
+	}
+		
 }
 
 socket_core::~socket_core()
@@ -75,3 +79,8 @@ void socket_core::init_ws2()
     }
 }
 #endif
+
+void socket_core::send_player_data( player_data *data )
+{
+	core_cnt->send_player_data( data );
+}

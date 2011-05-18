@@ -26,24 +26,33 @@
  *
  */
 
-#include <string>
 #pragma once
+
+#include <string>
+
+#include "player_data.h"
 
 #define PACKET_STAT_CONN_BLN 0x00	// Blank packet set by default constructor
 #define PACKET_STAT_CONN_NEW 0x01	// Packet requesting new connection
 #define PACKET_STAT_CONN_DIE 0x02	// Packet requesting disconnect
 #define PACKET_STAT_CONN_ACC 0x03	// Packet accepting connection
 #define PACKET_STAT_CONN_EXI 0x04	// Connection already open
+#define PACKET_STAT_CONN_DAT 0x05	// Player data packet
+
+#define PLAYER_DATA_SIZE 40
 
 class net_data
 {
 	short					packet_status;	// Packet status header
+	char					packet_content[ PLAYER_DATA_SIZE ];
 
 public:
 							net_data();
 							net_data( short );
+							net_data( player_data * );
 
 	bool 					operator==( const short &status )const;
 
 	void					set_status( short );
+	player_data			   *get_player_data();
 };

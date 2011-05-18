@@ -27,6 +27,7 @@
  */
 
 #include "../../main.h"
+#include "player_data.h"
 #include "data.h"
 #include "error.h"
 
@@ -51,4 +52,5 @@ public:
 					   ~client_socket();
 
 	void				Send();
+	void				send_player_data( player_data * );
 };

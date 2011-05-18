@@ -103,6 +103,11 @@ void server_socket::listen()
 			// Packet is from a new client, requesting to join
 			if( temp_data == PACKET_STAT_CONN_NEW )
 				handle_new( &temp_data, &inbnd_addr );
+			else if( temp_data == PACKET_STAT_CONN_DAT )
+			{
+				player_data *tmp_dat = temp_data.get_player_data();
+				std::cout << tmp_dat->get_height() << std::endl;
+			}
 		}
 }
 

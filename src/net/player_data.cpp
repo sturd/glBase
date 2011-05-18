@@ -47,3 +47,8 @@ player_data &player_data::operator=( const player_data &data )
 {
 	return *this;
 }
+
+int player_data::get_height()
+{
+	return _Height;
+}

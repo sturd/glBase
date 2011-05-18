@@ -30,7 +30,6 @@ using namespace std;
 
 #include "sprite.h"
 
-
 sprite::sprite( void )
 {
 	_Reversed = false;
@@ -270,11 +269,6 @@ void sprite::LoadConfig( char *SpriteID, char *ConfPath )
 	config.close();
 }
 
-std::string sprite::get_player_data()
-{
-	return std::string( "Hello" );
-}
-
 // Routine to get velocity along X-Axis
 int sprite::GetXVel( void )
 {
@@ -315,4 +309,9 @@ void sprite::TogglePause( void )
 void sprite::Rotate( float Angle )
 {
 	_Angle = Angle;
+}
+
+player_data *sprite::get_player_data()
+{
+	return ( player_data * )this;
 }

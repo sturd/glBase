@@ -30,6 +30,7 @@
 
 #include "server_sock.h"
 #include "client_sock.h"
+#include "player_data.h"
 
 #define SOCKET_SERVER	0x01
 #define SOCKET_CLIENT	0x02
@@ -49,4 +50,6 @@ class socket_core
 public:
 						socket_core( int, const char *, unsigned short );
 					   ~socket_core();
+					   
+	void				send_player_data( player_data * );
 };
