@@ -32,6 +32,7 @@
 	#include <arpa/inet.h>
 #endif
 
+#include <iostream>
 #include <string.h>
 #include <string>
 
@@ -44,6 +45,7 @@
 
 class client_list
 {
+	std::string				client_id_;		// ID of connected client
 	int						stream_stat_;	// Do we listen for her?
 	struct sockaddr_in		client_addr_;	// Client socket address
 

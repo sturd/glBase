@@ -36,7 +36,7 @@ server_socket::server_socket( unsigned short port )
 		SocketError( "Unable to initialise socket.", 3 );
 
 #ifdef WIN32 /* Non blocking socket initialisation */
-	block_mode = 1;
+	u_long block_mode = 1;
 	if( ioctlsocket( sock, FIONBIO, &block_mode ) < 0 )
 		SocketError( "Unable to initiate nonblocking socket.", 5 );
 #else
@@ -129,6 +129,8 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 			   as multiple connections may requested
 			   from same network.  Consider generating
 			   hash ID for better identification
+	*/
+
 	for( int i = 0; i < MAX_CLIENTS; ++i )
 		if( client_addr_lst[ i ] )
 			if( client_addr_lst[ i ]->get_ip() == 
@@ -138,7 +140,7 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 				send_reply( new net_data( PACKET_STAT_CONN_EXI ), addr );
 				break;
 			}
-	*/
+
 	// Client list is not full and is unique, so
 	// activate a new address structure and store it.
 	if( client_count < MAX_CLIENTS && is_unique )

@@ -44,6 +44,7 @@ class server_socket
 	struct sockaddr_in	local_addr;			// Local address
 	struct sockaddr_in	inbnd_addr;			// Inbound address
 
+	boost::mutex		mtx_data_lock;		// Mutex for synchronising data access
 	boost::thread	   *incoming_thread;	// Thread listening for new clients
 
 	int					client_count;		// Number of clients currently connected
@@ -58,7 +59,6 @@ class server_socket
 #ifdef WIN32
 	SOCKET				sock;
 	int					data_size;			// Size of incoming data
-	u_long				block_mode;
 #else
 	int					sock;				// Socket descriptor
 	socklen_t           data_size;

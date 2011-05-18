@@ -67,7 +67,7 @@ void client_socket::Send()
 	if( newData == PACKET_STAT_CONN_ACC )
 		std::cout << "Successful connection established with server." << std::endl;
 	else if( newData == PACKET_STAT_CONN_EXI )
-		std::cout << "Connection already exists with server." << std::endl;
+		SocketError( "Connection already exists on the server.\nExiting." );
 }
 
 void client_socket::send_player_data( player_data *data )
