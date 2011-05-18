@@ -104,10 +104,7 @@ void server_socket::listen()
 			if( temp_data == PACKET_STAT_CONN_NEW )
 				handle_new( &temp_data, &inbnd_addr );
 			else if( temp_data == PACKET_STAT_CONN_DAT )
-			{
-				player_data *tmp_dat = temp_data.get_player_data();
-				std::cout << tmp_dat->get_height() << std::endl;
-			}
+				handle_game_data( &temp_data, &inbnd_addr );
 		}
 }
 
@@ -116,8 +113,19 @@ bool server_socket::is_done()
 	return is_done_;
 }
 
+void server_socket::lock_mutex()
+{
+	data_mutex.lock();
+}
+
+void server_socket::unlock_mutex()
+{
+	data_mutex.unlock();
+}
+
 void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 {
+	data_mutex.lock();
 	bool is_unique = true;
 	/*
 		Scan active clients and ensure the client
@@ -151,10 +159,12 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 		send_reply( new net_data( PACKET_STAT_CONN_ACC ), addr );
 		++client_count;
 	}
+	data_mutex.unlock();
 }
 
 void server_socket::handle_game_data( net_data *data, struct sockaddr_in *addr )
 {
+	data_mutex.lock();
 	for( int i = 0; i < MAX_CLIENTS; ++i )
 		if( client_addr_lst[ i ] )
 			if( client_addr_lst[ i ]->get_ip() ==
@@ -164,6 +174,7 @@ void server_socket::handle_game_data( net_data *data, struct sockaddr_in *addr )
 					data->get_player_data() );
 				break;
 			}
+	data_mutex.unlock();
 }
 
 /*
