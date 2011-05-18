@@ -36,6 +36,8 @@
 #include <string.h>
 #include <string>
 
+#include "player_data.h"
+
 /*
 	START COMM STATUS CODES
  */
@@ -48,6 +50,8 @@ class client_list
 	std::string				client_id_;		// ID of connected client
 	int						stream_stat_;	// Do we listen for her?
 	struct sockaddr_in		client_addr_;	// Client socket address
+	
+	player_data				client_game_data_;
 
 	void					zero_address();	// Purge item address space
 
@@ -57,6 +61,7 @@ public:
 
 	bool					operator==( const std::string &addr )const;
 
+	void					set_player_data( player_data * );
 	int						get_status();
 	void					dc_client();
 	std::string				get_ip();

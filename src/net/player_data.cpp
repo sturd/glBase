@@ -27,6 +27,21 @@
 
 #include "player_data.h"
 
+player_data::player_data()
+{
+	_Height = 0;
+	_Width = 0;
+	_FrameCount = 0;
+	_CurrentFrame = 0;
+	_X = 0;
+	_Y = 0;
+	_xVel = 0;
+	_yVel = 0;
+	_Angle = 0.0f;
+	_Reversed = false;
+	_Paused = false;
+}
+
 player_data::player_data( const player_data &data ) :
 				_Height(		data._Height ),
 				_Width(			data._Width ),

@@ -68,6 +68,7 @@ class server_socket
 	int					recv_data_size;		// Size of recieved data
 
 	void				handle_new( net_data *, struct sockaddr_in * );
+	void				handle_game_data( net_data *, struct sockaddr_in * );
 	void				listen();			// Listen for incoming data
 public:
 						server_socket( unsigned short port );

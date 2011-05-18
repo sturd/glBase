@@ -153,6 +153,19 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 	}
 }
 
+void server_socket::handle_game_data( net_data *data, struct sockaddr_in *addr )
+{
+	for( int i = 0; i < MAX_CLIENTS; ++i )
+		if( client_addr_lst[ i ] )
+			if( client_addr_lst[ i ]->get_ip() ==
+				inet_ntoa( addr->sin_addr ) )
+			{
+				client_addr_lst[ i ]->set_player_data( 
+					data->get_player_data() );
+				break;
+			}
+}
+
 /*
 	send_reply() - Sends reply back to specified client, with requested data
  */

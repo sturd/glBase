@@ -45,6 +45,7 @@ class player_data
 	bool			_Paused;
 
 public:
+					player_data();
 					player_data( const player_data & );
 	player_data	   &operator=( const player_data & );
 

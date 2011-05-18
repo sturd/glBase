@@ -39,7 +39,6 @@ client_list::client_list( struct sockaddr_in *client_addr )
 		client_addr_ = *client_addr;
 		stream_stat_ = SCK_STAT_INCOME_WAIT;
 		client_id_   = std::string( inet_ntoa( client_addr_.sin_addr ) );
-		
 		std::cout << client_id_ << std::endl;
 	}
 	else
@@ -67,6 +66,11 @@ void client_list::zero_address()
 bool client_list::operator==( const std::string &addr )const
 {
 	return ( addr == client_id_ );
+}
+
+void client_list::set_player_data( player_data *data )
+{
+	client_game_data_ = *data;
 }
 
 /*
