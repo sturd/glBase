@@ -61,6 +61,7 @@ public:
 
 	bool					operator==( const std::string &addr )const;
 
+	player_data			   *get_player_data();
 	void					set_player_data( player_data * );
 	int						get_status();
 	void					dc_client();

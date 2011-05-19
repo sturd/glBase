@@ -68,6 +68,15 @@ bool client_list::operator==( const std::string &addr )const
 	return ( addr == client_id_ );
 }
 
+/*
+	get_player_data() - Expose player data in item to external
+						gameplay process.
+ */
+player_data *client_list::get_player_data()
+{
+	return &client_game_data_;
+}
+
 void client_list::set_player_data( player_data *data )
 {
 	client_game_data_ = *data;

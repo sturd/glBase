@@ -113,14 +113,26 @@ bool server_socket::is_done()
 	return is_done_;
 }
 
-void server_socket::lock_mutex()
+/*
+	get_player_data() - Allow level_level data object to call upon required
+						player data for displaying on screen.
+ */
+player_data server_socket::get_player_data( std::string client_id )
 {
+	player_data temp;
 	data_mutex.lock();
-}
-
-void server_socket::unlock_mutex()
-{
+	for( int i = 0; i < MAX_CLIENTS; ++i )
+		if( client_addr_lst[ i ] )
+			if( client_addr_lst[ i ]->get_ip() ==
+				client_id	)
+			{	// Make a local copy of the needed player data to allow
+				// unlocking of the mutex before return.
+				temp = *client_addr_lst[ i ]->get_player_data();
+				break;
+			}
 	data_mutex.unlock();
+	
+	return temp;
 }
 
 void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )

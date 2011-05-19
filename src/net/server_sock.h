@@ -35,6 +35,7 @@
 #include "data.h"
 #include "error.h"
 #include "client_list.h"
+#include "player_data.h"
 
 #define MAX_CLIENTS 6
 
@@ -73,9 +74,8 @@ class server_socket
 public:
 						server_socket( unsigned short port );
 					   ~server_socket();
-					   
-	void				lock_mutex();		// Provides external access to data mutex
-	void				unlock_mutex();
+	
+	player_data		   get_player_data( std::string );	   
 
 	bool				is_done();
 };
