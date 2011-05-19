@@ -29,7 +29,9 @@
 
 server_socket::server_socket( unsigned short port )
 {
-	client_count = 0;
+	// Initialise client_count as 1, reserving first place in
+	// list for the server player.
+	client_count = 1;
 	is_done_ = false;
 
 	if( ( sock = socket( PF_INET, SOCK_DGRAM, IPPROTO_UDP ) ) < 0 )
@@ -135,6 +137,13 @@ player_data server_socket::get_player_data( std::string client_id )
 	return temp;
 }
 
+void server_socket::update_local_player( player_data *data )
+{
+	data_mutex.lock();
+	
+	data_mutex.unlock();
+}
+
 void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 {
 	data_mutex.lock();
@@ -151,7 +160,7 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 			   hash ID for better identification
 	*/
 
-	for( int i = 0; i < MAX_CLIENTS; ++i )
+	for( int i = 1; i < MAX_CLIENTS; ++i )
 		if( client_addr_lst[ i ] )
 			if( client_addr_lst[ i ]->get_ip() == 
 				inet_ntoa( addr->sin_addr ) )
@@ -174,6 +183,13 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 	data_mutex.unlock();
 }
 
+/*
+	handle_game_data() - Place incoming game data into it's corresponding
+						 structure in the client list.
+						 TODO:- Finalise algorithm constructing a packet
+						 		containing relevant game data for
+						 		the waiting client.
+ */
 void server_socket::handle_game_data( net_data *data, struct sockaddr_in *addr )
 {
 	data_mutex.lock();
