@@ -78,5 +78,6 @@ public:
 	void			TogglePause( void );
 	void			Rotate( float );
 	
+	void			set_player_data( player_data * );
 	player_data	   *get_player_data();
 };

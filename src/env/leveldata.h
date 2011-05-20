@@ -42,6 +42,7 @@ class LevelData
 	bool			key_down_down;
 	
 	sprite		   *sonic;
+	sprite		   *client_sprite;
 
 public:
 					LevelData( int );

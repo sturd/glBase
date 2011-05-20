@@ -119,13 +119,13 @@ bool server_socket::is_done()
 	get_player_data() - Allow level_data object to call upon required
 						player data for displaying on screen.
  */
-player_data server_socket::get_player_data( std::string client_id )
+player_data server_socket::get_player_data( short client_id )
 {
 	player_data temp;
 	data_mutex.lock();
 	for( int i = 0; i < MAX_CLIENTS; ++i )
 		if( client_addr_lst[ i ] )
-			if( client_addr_lst[ i ]->get_ip() ==
+			if( client_addr_lst[ i ]->get_id() !=
 				client_id	)
 			{	// Make a local copy of the needed player data to allow
 				// unlocking of the mutex before return.
@@ -133,7 +133,7 @@ player_data server_socket::get_player_data( std::string client_id )
 				break;
 			}
 	data_mutex.unlock();
-	
+
 	return temp;
 }
 
@@ -179,8 +179,10 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 	// activate a new address structure and store it.
 	if( client_count < MAX_CLIENTS && is_unique )
 	{
+		short tmp_cc = ( short )client_count;
+		std::cout << tmp_cc << std::endl;
 		client_addr_lst[ client_count ] =
-			new client_list( addr, ( short )client_count );
+			new client_list( addr, tmp_cc );
 		// Inform client of successful connection
 		send_reply( new net_data( PACKET_STAT_CONN_ACC ), addr );
 		++client_count;
@@ -203,6 +205,8 @@ void server_socket::handle_game_data( net_data *data, struct sockaddr_in *addr )
 			if( client_addr_lst[ i ]->get_id() ==
 				data->get_client_id() )
 			{
+				player_data tmp = *data->get_player_data();
+				std::cout << "X Pos: " << tmp.get_x() << std::endl;
 				client_addr_lst[ i ]->set_player_data( 
 					data->get_player_data(),
 					data->get_client_id() );

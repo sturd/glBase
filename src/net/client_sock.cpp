@@ -52,7 +52,7 @@ void client_socket::Send()
 {
 	net_data newData( PACKET_STAT_CONN_NEW );
 
-	data_size = sizeof( newData, "CLIENT" );
+	data_size = sizeof( newData );
 	int recv_data_size = 0;
 
 	if( sendto( sock, ( const char * )&newData, data_size, 0,
@@ -67,7 +67,8 @@ void client_socket::Send()
 	if( newData == PACKET_STAT_CONN_ACC )
 	{
 		client_id = newData.get_client_id();
-		std::cout << "Successful connection established with server." << std::endl;
+		std::cout << "Successful connection established with server. ID: " <<
+					 client_id << std::endl;
 	}
 	else if( newData == PACKET_STAT_CONN_EXI )
 		SocketError( "Connection already exists on the server.\nExiting." );
@@ -75,6 +76,7 @@ void client_socket::Send()
 
 void client_socket::send_player_data( player_data *data )
 {
+	std::cout << data->get_height() << std::endl;
 	net_data game_data( data, client_id );
 	data_size = sizeof( game_data );
 	if( sendto( sock, ( const char * )&game_data, data_size, 0,

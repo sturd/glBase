@@ -63,7 +63,57 @@ player_data &player_data::operator=( const player_data &data )
 	return *this;
 }
 
+int player_data::get_width()
+{
+	return _Width;
+}
+
 int player_data::get_height()
 {
 	return _Height;
+}
+
+int player_data::get_frame_count()
+{
+	return _FrameCount;
+}
+
+int player_data::get_current_frame()
+{
+	return _CurrentFrame;
+}
+
+int player_data::get_x()
+{
+	return _X;
+}
+
+int player_data::get_y()
+{
+	return _Y;
+}
+
+int player_data::get_x_vel()
+{
+	return _xVel;
+}
+
+int player_data::get_y_vel()
+{
+	return _yVel;
+}
+
+float player_data::get_angle()
+{
+	return _Angle;
+}
+
+bool player_data::is_reversed()
+{
+	return _Reversed;
+}
+
+bool player_data::is_paused()
+{
+	return _Paused;
 }

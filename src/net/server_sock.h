@@ -75,7 +75,7 @@ public:
 						server_socket( unsigned short port );
 					   ~server_socket();
 	
-	player_data			get_player_data( std::string );
+	player_data			get_player_data( short );
 	void				update_local_player( player_data * );
 
 	bool				is_done();

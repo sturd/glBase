@@ -52,7 +52,7 @@ public:
 							net_data( short );
 							net_data( player_data *, short );
 
-	bool 					operator==( const short &status )const;
+	bool 					operator==( const short & )const;
 
 	void					set_status( short );
 	short					get_client_id();

@@ -39,7 +39,6 @@ client_list::client_list( struct sockaddr_in *client_addr, short id )
 		client_addr_ = *client_addr;
 		stream_stat_ = SCK_STAT_INCOME_WAIT;
 		client_id_   = id;
-		std::cout << client_id_ << std::endl;
 	}
 	else
 		stream_stat_ = SCK_STAT_ITEM_EMPTY;

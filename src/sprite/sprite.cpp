@@ -311,6 +311,21 @@ void sprite::Rotate( float Angle )
 	_Angle = Angle;
 }
 
+void sprite::set_player_data( player_data *data )
+{
+	_Height = data->get_height();
+	_Width  = data->get_width();
+	_FrameCount = data->get_frame_count();
+	_CurrentFrame = data->get_current_frame();
+	_X = data->get_x();
+	_Y = data->get_y();
+	_xVel = data->get_x_vel();
+	_yVel = data->get_y_vel();
+	_Angle = data->get_angle();
+	_Reversed = data->is_reversed();
+	_Paused = data->is_paused();
+}
+
 player_data *sprite::get_player_data()
 {
 	return ( player_data * )this;

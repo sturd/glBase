@@ -43,8 +43,7 @@ socket_core::socket_core( short sock_mode, const char *addr = DEFAULT_IP, unsign
 	{
 		core_cnt = new client_socket( port, addr );
 		core_cnt->Send();
-	}
-		
+	}	
 }
 
 socket_core::~socket_core()
@@ -85,8 +84,9 @@ short socket_core::mode()
 	return mode_;
 }
 
-void socket_core::send_player_data( player_data *data )
+player_data socket_core::send_player_data( player_data *data )
 {
+	player_data tmp_data;
 	if( mode_ == SOCKET_CLIENT )
 	{
 		core_cnt->send_player_data( data );
@@ -94,5 +94,8 @@ void socket_core::send_player_data( player_data *data )
 	else if( mode_ == SOCKET_SERVER )
 	{
 		core_srv->update_local_player( data );
+		tmp_data = core_srv->get_player_data( 0 );
+		//std::cout << tmp_data.get_x() << std::endl;
 	}
+	return tmp_data;
 }

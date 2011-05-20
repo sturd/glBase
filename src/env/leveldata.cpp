@@ -32,14 +32,19 @@ using namespace std;
 
 LevelData::LevelData( int socket_mode )
 {
-	sonic = new sprite( "media/image/run.tga", 100, 100, 8 );
-	
-	player_data *new_data = sonic->get_player_data();
-	
 	net_core = new socket_core( socket_mode, "127.0.1.1", 1987 );
 
-	if( net_core->mode() == SOCKET_CLIENT )
+	if( net_core->mode() == SOCKET_SERVER )
+	{
+		sonic = new sprite( "media/image/run.tga", 100, 100, 8 );
+		client_sprite = new sprite( "media/image/run.tga", 250, 250, 8 );
+	}
+	else if( net_core->mode() == SOCKET_CLIENT )
+	{
+		sonic = new sprite( "media/image/run.tga", 250, 250, 8 );
+		player_data *new_data = sonic->get_player_data();
 		net_core->send_player_data( new_data );
+	}
 	
 	key_right_down = false;
 	key_left_down = false;
@@ -167,11 +172,22 @@ void LevelData::Execute()
 		else
 			sonic->SetXVel( sonic->GetXVel() + 1 );
 
-
-		if( net_core->mode() == SOCKET_SERVER )
-			net_core->send_player_data( sonic->get_player_data() );
-		
 		sonic->DrawImage();
+		player_data tmp_plyr_data;
+		if( net_core->mode() == SOCKET_SERVER )
+		{
+			tmp_plyr_data = net_core->send_player_data( sonic->get_player_data() );
+			if( tmp_plyr_data.get_height() != 0 )
+				client_sprite->set_player_data( &tmp_plyr_data );
+
+			client_sprite->DrawImage();
+		}
+		else if( net_core->mode() == SOCKET_CLIENT )
+		{
+			player_data *new_data = sonic->get_player_data();
+			net_core->send_player_data( new_data );
+		}
+
 
 		SDL_GL_SwapBuffers();
 

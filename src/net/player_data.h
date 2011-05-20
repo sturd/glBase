@@ -49,6 +49,16 @@ public:
 					player_data( const player_data & );
 	player_data	   &operator=( const player_data & );
 
+	int				get_width();
 	int				get_height();
+	int				get_frame_count();
+	int				get_current_frame();
+	int				get_x();
+	int				get_y();
+	int				get_x_vel();
+	int				get_y_vel();
+	float			get_angle();
+	bool			is_reversed();
+	bool			is_paused();
 	
 };
