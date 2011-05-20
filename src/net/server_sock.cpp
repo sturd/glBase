@@ -144,7 +144,7 @@ player_data server_socket::get_player_data( std::string client_id )
 void server_socket::update_local_player( player_data *data )
 {
 	data_mutex.lock();
-	const char *tmp_id = "127.0.0.1";
+	short tmp_id = 0;
 	client_addr_lst[ 0 ]->set_player_data( data, tmp_id );
 	data_mutex.unlock();
 }
@@ -180,7 +180,7 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 	if( client_count < MAX_CLIENTS && is_unique )
 	{
 		client_addr_lst[ client_count ] =
-			new client_list( addr );
+			new client_list( addr, ( short )client_count );
 		// Inform client of successful connection
 		send_reply( new net_data( PACKET_STAT_CONN_ACC ), addr );
 		++client_count;
@@ -198,14 +198,14 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 void server_socket::handle_game_data( net_data *data, struct sockaddr_in *addr )
 {
 	data_mutex.lock();
-	char *tmp_id = data->get_client_id();
 	for( int i = 0; i < MAX_CLIENTS; ++i )
 		if( client_addr_lst[ i ] )
-			if( client_addr_lst[ i ]->get_id() == tmp_id )
+			if( client_addr_lst[ i ]->get_id() ==
+				data->get_client_id() )
 			{
 				client_addr_lst[ i ]->set_player_data( 
 					data->get_player_data(),
-					tmp_id );
+					data->get_client_id() );
 				break;
 			}
 	data_mutex.unlock();

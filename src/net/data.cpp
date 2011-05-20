@@ -40,14 +40,14 @@ net_data::net_data( short status )
 	set_status( status );
 }
 
-net_data::net_data( player_data *data, const char *client_id )
+net_data::net_data( player_data *data, short client_id )
 {	// Initialise game data packet
 	packet_status = PACKET_STAT_CONN_DAT;
 	char *temp_data = ( char * )data;
 	for( int i = 0; i < PLAYER_DATA_SIZE; ++i )
 		packet_content[ i ] = temp_data[ i ];
 		
-	client_id_ = ( char * )client_id;
+	client_id_ = client_id;
 }
 
 /*
@@ -69,7 +69,7 @@ void net_data::set_status( short status )
 	packet_status = status;
 }
 
-char *net_data::get_client_id()
+short net_data::get_client_id()
 {
 	return client_id_;
 }

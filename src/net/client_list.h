@@ -47,7 +47,7 @@
 
 class client_list
 {
-	char				   *client_id_;		// ID of connected client
+	short					client_id_;		// ID of connected client
 	int						stream_stat_;	// Do we listen for her?
 	struct sockaddr_in		client_addr_;	// Client socket address
 	
@@ -56,15 +56,16 @@ class client_list
 	void					zero_address();	// Purge item address space
 
 public:
-							client_list( struct sockaddr_in * );
+							client_list( struct sockaddr_in *, short );
 						   ~client_list();
 
-	bool					operator==( const std::string &addr )const;
+	bool					operator==( short )const;
 
 	player_data			   *get_player_data();
-	void					set_player_data( player_data *, const char * );
+	void					set_player_data( player_data *, short );
 	int						get_status();
 	void					dc_client();
-	char				   *get_id();
+	void					set_id( short );
+	short					get_id();
 	std::string				get_ip();
 };

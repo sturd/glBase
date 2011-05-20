@@ -65,14 +65,17 @@ void client_socket::Send()
 			SocketError( "Unable to receive data." );
 
 	if( newData == PACKET_STAT_CONN_ACC )
+	{
+		client_id = newData.get_client_id();
 		std::cout << "Successful connection established with server." << std::endl;
+	}
 	else if( newData == PACKET_STAT_CONN_EXI )
 		SocketError( "Connection already exists on the server.\nExiting." );
 }
 
 void client_socket::send_player_data( player_data *data )
 {
-	net_data game_data( data, "CLIENT" );	// TODO:- Implement proper client ID system...
+	net_data game_data( data, client_id );
 	data_size = sizeof( game_data );
 	if( sendto( sock, ( const char * )&game_data, data_size, 0,
 		( struct sockaddr * )&server_addr, sizeof( server_addr ) ) != data_size )

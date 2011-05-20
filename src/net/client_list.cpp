@@ -27,7 +27,7 @@
 
 #include "client_list.h"
 
-client_list::client_list( struct sockaddr_in *client_addr )
+client_list::client_list( struct sockaddr_in *client_addr, short id )
 {
 	if( client_addr )
 	{
@@ -38,7 +38,7 @@ client_list::client_list( struct sockaddr_in *client_addr )
 		zero_address();
 		client_addr_ = *client_addr;
 		stream_stat_ = SCK_STAT_INCOME_WAIT;
-		client_id_   = 0;
+		client_id_   = id;
 		std::cout << client_id_ << std::endl;
 	}
 	else
@@ -63,9 +63,9 @@ void client_list::zero_address()
 		 new connection with client.
 		 Compare string format IP address for time being...
  */
-bool client_list::operator==( const std::string &addr )const
+bool client_list::operator==( short id )const
 {
-	return ( addr == client_id_ );
+	return ( id == client_id_ );
 }
 
 /*
@@ -77,10 +77,9 @@ player_data *client_list::get_player_data()
 	return &client_game_data_;
 }
 
-void client_list::set_player_data( player_data *data, const char *id )
+void client_list::set_player_data( player_data *data, short cnt_id )
 {
-	client_game_data_ = *data;
-	// TODO:- Get ID value into this object!
+	client_game_data_	= *data;
 }
 
 /*
@@ -103,7 +102,12 @@ void client_list::dc_client()
 	stream_stat_ = SCK_STAT_ITEM_EMPTY;
 }
 
-char *client_list::get_id()
+void client_list::set_id( short cnt_id )
+{
+	client_id_ = cnt_id;
+}
+
+short client_list::get_id()
 {
 	return client_id_;
 }

@@ -44,17 +44,17 @@
 class net_data
 {
 	short					packet_status;	// Packet status header
-	char				   *client_id_;
+	short					client_id_;
 	char					packet_content[ PLAYER_DATA_SIZE ];
 
 public:
 							net_data();
 							net_data( short );
-							net_data( player_data *, const char * );
+							net_data( player_data *, short );
 
 	bool 					operator==( const short &status )const;
 
 	void					set_status( short );
-	char				   *get_client_id();
+	short					get_client_id();
 	player_data			   *get_player_data();
 };
