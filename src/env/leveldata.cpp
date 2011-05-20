@@ -37,8 +37,8 @@ LevelData::LevelData( int socket_mode )
 	player_data *new_data = sonic->get_player_data();
 	
 	net_core = new socket_core( socket_mode, "127.0.1.1", 1987 );
-	
-	if( socket_mode == SOCKET_CLIENT )
+
+	if( net_core->mode() == SOCKET_CLIENT )
 		net_core->send_player_data( new_data );
 	
 	key_right_down = false;
@@ -168,6 +168,9 @@ void LevelData::Execute()
 			sonic->SetXVel( sonic->GetXVel() + 1 );
 
 
+		if( net_core->mode() == SOCKET_SERVER )
+			net_core->send_player_data( sonic->get_player_data() );
+		
 		sonic->DrawImage();
 
 		SDL_GL_SwapBuffers();

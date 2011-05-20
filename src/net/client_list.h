@@ -47,7 +47,7 @@
 
 class client_list
 {
-	std::string				client_id_;		// ID of connected client
+	char				   *client_id_;		// ID of connected client
 	int						stream_stat_;	// Do we listen for her?
 	struct sockaddr_in		client_addr_;	// Client socket address
 	
@@ -62,8 +62,9 @@ public:
 	bool					operator==( const std::string &addr )const;
 
 	player_data			   *get_player_data();
-	void					set_player_data( player_data * );
+	void					set_player_data( player_data *, const char * );
 	int						get_status();
 	void					dc_client();
+	char				   *get_id();
 	std::string				get_ip();
 };

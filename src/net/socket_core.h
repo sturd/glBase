@@ -5,9 +5,7 @@
  * Email: craig <at> sturd <dot> co <dot> uk
  * Example Usage: http://sturd.co.uk/
  *
- * socket_core.h is the legal property of its developers, whose names
- * are too numerous to list here. Please refer to the COPYRIGHT
- * file distributed with this source distribution.
+ * socket_core.h is the legal property of its developer.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +37,7 @@
 class socket_core
 {
 
-	int					mode_;
+	short				mode_;
 	server_socket	   *core_srv;	// Core server descriptor
 	client_socket	   *core_cnt;	// Core socket descriptor
 
@@ -48,8 +46,9 @@ class socket_core
 #endif
 
 public:
-						socket_core( int, const char *, unsigned short );
+						socket_core( short, const char *, unsigned short );
 					   ~socket_core();
-					   
+	
+	short				mode();
 	void				send_player_data( player_data * );
 };

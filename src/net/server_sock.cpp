@@ -116,7 +116,7 @@ bool server_socket::is_done()
 }
 
 /*
-	get_player_data() - Allow level_level data object to call upon required
+	get_player_data() - Allow level_data object to call upon required
 						player data for displaying on screen.
  */
 player_data server_socket::get_player_data( std::string client_id )
@@ -137,10 +137,15 @@ player_data server_socket::get_player_data( std::string client_id )
 	return temp;
 }
 
+/*
+	update_local_player() - Make local player data available to socket
+							for transmission to connected clients.
+ */
 void server_socket::update_local_player( player_data *data )
 {
 	data_mutex.lock();
-	
+	const char *tmp_id = "127.0.0.1";
+	client_addr_lst[ 0 ]->set_player_data( data, tmp_id );
 	data_mutex.unlock();
 }
 
@@ -193,13 +198,14 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 void server_socket::handle_game_data( net_data *data, struct sockaddr_in *addr )
 {
 	data_mutex.lock();
+	char *tmp_id = data->get_client_id();
 	for( int i = 0; i < MAX_CLIENTS; ++i )
 		if( client_addr_lst[ i ] )
-			if( client_addr_lst[ i ]->get_ip() ==
-				inet_ntoa( addr->sin_addr ) )
+			if( client_addr_lst[ i ]->get_id() == tmp_id )
 			{
 				client_addr_lst[ i ]->set_player_data( 
-					data->get_player_data() );
+					data->get_player_data(),
+					tmp_id );
 				break;
 			}
 	data_mutex.unlock();

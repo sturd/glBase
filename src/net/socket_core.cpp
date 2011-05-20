@@ -27,7 +27,7 @@
 
 #include "socket_core.h"
 
-socket_core::socket_core( int sock_mode, const char *addr = DEFAULT_IP, unsigned short port = 1987 )
+socket_core::socket_core( short sock_mode, const char *addr = DEFAULT_IP, unsigned short port = 1987 )
 {
 	mode_ = sock_mode;
 
@@ -80,7 +80,19 @@ void socket_core::init_ws2()
 }
 #endif
 
+short socket_core::mode()
+{
+	return mode_;
+}
+
 void socket_core::send_player_data( player_data *data )
 {
-	core_cnt->send_player_data( data );
+	if( mode_ == SOCKET_CLIENT )
+	{
+		core_cnt->send_player_data( data );
+	}
+	else if( mode_ == SOCKET_SERVER )
+	{
+		core_srv->update_local_player( data );
+	}
 }

@@ -38,7 +38,7 @@ client_list::client_list( struct sockaddr_in *client_addr )
 		zero_address();
 		client_addr_ = *client_addr;
 		stream_stat_ = SCK_STAT_INCOME_WAIT;
-		client_id_   = std::string( inet_ntoa( client_addr_.sin_addr ) );
+		client_id_   = 0;
 		std::cout << client_id_ << std::endl;
 	}
 	else
@@ -77,9 +77,10 @@ player_data *client_list::get_player_data()
 	return &client_game_data_;
 }
 
-void client_list::set_player_data( player_data *data )
+void client_list::set_player_data( player_data *data, const char *id )
 {
 	client_game_data_ = *data;
+	// TODO:- Get ID value into this object!
 }
 
 /*
@@ -100,6 +101,11 @@ void client_list::dc_client()
 {
 	zero_address();
 	stream_stat_ = SCK_STAT_ITEM_EMPTY;
+}
+
+char *client_list::get_id()
+{
+	return client_id_;
 }
 
 /*

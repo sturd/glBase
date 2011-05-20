@@ -40,12 +40,14 @@ net_data::net_data( short status )
 	set_status( status );
 }
 
-net_data::net_data( player_data *data )
+net_data::net_data( player_data *data, const char *client_id )
 {	// Initialise game data packet
 	packet_status = PACKET_STAT_CONN_DAT;
 	char *temp_data = ( char * )data;
 	for( int i = 0; i < PLAYER_DATA_SIZE; ++i )
 		packet_content[ i ] = temp_data[ i ];
+		
+	client_id_ = ( char * )client_id;
 }
 
 /*
@@ -65,6 +67,11 @@ bool net_data::operator==( const short &status )const
 void net_data::set_status( short status )
 {
 	packet_status = status;
+}
+
+char *net_data::get_client_id()
+{
+	return client_id_;
 }
 
 player_data *net_data::get_player_data()
