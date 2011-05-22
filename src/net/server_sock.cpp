@@ -131,7 +131,7 @@ player_data *server_socket::get_player_data( short client_id )
 			{	// Make a local copy of the needed player data to allow
 				// unlocking of the mutex before return.
 				rtn_data->set_player_data(
-					client_addr_lst[ i ]->get_player_data_ptr() );
+					client_addr_lst[ i ]->get_player_data() );
 				//std::cout << "X: " << rtn_data.get_x() << std::endl;
 				break;
 			}
@@ -188,9 +188,11 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 		short tmp_cc = ( short )client_count;
 		client_addr_lst[ client_count ] =
 			new client_list( addr, tmp_cc );
-		player_data tmp_pl_data = client_addr_lst[ client_count ]->get_player_data();
+		player_data *tmp_pl_data = new player_data();
+		tmp_pl_data->set_player_data(
+			client_addr_lst[ client_count ]->get_player_data() );
 		net_data *tmp_net_data = new net_data(
-			&tmp_pl_data,
+			tmp_pl_data,
 			tmp_cc );
 		tmp_net_data->set_status( PACKET_STAT_CONN_ACC );
 		// Inform client of successful connection
@@ -210,7 +212,7 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 void server_socket::handle_game_data( net_data *data, struct sockaddr_in *addr )
 {
 	player_data *tmp_data = new player_data();
-	tmp_data->set_player_data( data->get_player_data_ptr() );
+	tmp_data->set_player_data( data->get_player_data() );
 	
 	short		 tmp_id	      = data->get_client_id();
 	data_mutex.lock();

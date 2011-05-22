@@ -75,15 +75,7 @@ short net_data::get_client_id()
 	return client_id_;
 }
 
-player_data net_data::get_player_data()
-{
-	player_data tmp_buff;
-	player_data *tmp_ptr = ( player_data * )&packet_content;
-	tmp_buff = *tmp_ptr;
-	return tmp_buff;
-}
-
-player_data *net_data::get_player_data_ptr()
+player_data *net_data::get_player_data()
 {
 	return ( player_data * )&packet_content;
 }
