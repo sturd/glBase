@@ -50,5 +50,5 @@ public:
 					   ~socket_core();
 	
 	short				mode();
-	player_data			send_player_data( player_data * );
+	player_data		   *send_player_data( player_data * );
 };

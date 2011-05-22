@@ -42,25 +42,24 @@ player_data::player_data()
 	_Paused = false;
 }
 
-player_data::player_data( const player_data &data ) :
-				_Height(		data._Height ),
-				_Width(			data._Width ),
-				_FrameCount(	data._FrameCount ),
-				_CurrentFrame(	data._CurrentFrame ),
-				_X(				data._X ),
-				_Y(				data._Y ),
-				_xVel(			data._xVel ),
-				_yVel(			data._yVel ),
-				_Angle(			data._Angle ),
-				_Reversed(		data._Reversed ),
-				_Paused(		data._Paused )
-{
-
-}
-
 player_data &player_data::operator=( const player_data &data )
 {
 	return *this;
+}
+
+void player_data::set_player_data( player_data *data )
+{
+	_Height	=		data->get_height();
+	_Width  =		data->get_width();
+	_FrameCount =	data->get_frame_count();
+	_CurrentFrame =	data->get_current_frame();
+	_X =			data->get_x();
+	_Y =			data->get_y();
+	_xVel =			data->get_x_vel();
+	_yVel =			data->get_y_vel();
+	_Angle =		data->get_angle();
+	_Reversed =		data->is_reversed();
+	_Paused =		data->is_paused();
 }
 
 int player_data::get_width()

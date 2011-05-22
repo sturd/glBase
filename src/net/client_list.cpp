@@ -5,9 +5,7 @@
  * Email: craig <at> sturd <dot> co <dot> uk
  * Example Usage: http://sturd.co.uk/
  *
- * client_list.cpp is the legal property of its developers, whose names
- * are too numerous to list here. Please refer to the COPYRIGHT
- * file distributed with this source distribution.
+ * client_list.cpp is the legal property of its developer.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -76,9 +74,14 @@ player_data client_list::get_player_data()
 	return client_game_data_;
 }
 
+player_data *client_list::get_player_data_ptr()
+{
+	return &client_game_data_;
+}
+
 void client_list::set_player_data( player_data *data, short cnt_id )
 {
-	client_game_data_	= *data;
+	client_game_data_.set_player_data( data );
 }
 
 /*

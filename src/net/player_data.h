@@ -46,9 +46,9 @@ class player_data
 
 public:
 					player_data();
-					player_data( const player_data & );
 	player_data	   &operator=( const player_data & );
 
+	void			set_player_data( player_data * );
 	int				get_width();
 	int				get_height();
 	int				get_frame_count();

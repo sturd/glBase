@@ -56,5 +56,6 @@ public:
 
 	void					set_status( short );
 	short					get_client_id();
-	player_data			   get_player_data();
+	player_data				get_player_data();
+	player_data			   *get_player_data_ptr();
 };

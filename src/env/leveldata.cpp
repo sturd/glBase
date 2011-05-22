@@ -176,10 +176,10 @@ void LevelData::Execute()
 		player_data tmp_plyr_data;
 		if( net_core->mode() == SOCKET_SERVER )
 		{
-			tmp_plyr_data = net_core->send_player_data( sonic->get_player_data() );
+			tmp_plyr_data.set_player_data(
+				net_core->send_player_data( sonic->get_player_data() ) );
 			if( tmp_plyr_data.get_height() != 0 )
-				std::cout << tmp_plyr_data.get_x() << std::endl;
-				//client_sprite->set_player_data( &tmp_plyr_data );
+				client_sprite->set_player_data( &tmp_plyr_data );
 
 			client_sprite->DrawImage();
 		}

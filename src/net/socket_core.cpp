@@ -84,9 +84,9 @@ short socket_core::mode()
 	return mode_;
 }
 
-player_data socket_core::send_player_data( player_data *data )
+player_data *socket_core::send_player_data( player_data *data )
 {
-	player_data tmp_data;
+	player_data *tmp_data = new player_data();
 	if( mode_ == SOCKET_CLIENT )
 	{
 		core_cnt->send_player_data( data );

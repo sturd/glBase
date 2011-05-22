@@ -5,9 +5,7 @@
  * Email: craig <at> sturd <dot> co <dot> uk
  * Example Usage: http://sturd.co.uk/
  *
- * server_sock.h is the legal property of its developers, whose names
- * are too numerous to list here. Please refer to the COPYRIGHT
- * file distributed with this source distribution.
+ * server_sock.h is the legal property of its developer.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -75,7 +73,7 @@ public:
 						server_socket( unsigned short port );
 					   ~server_socket();
 	
-	player_data			get_player_data( short );
+	player_data		   *get_player_data( short );
 	void				update_local_player( player_data * );
 
 	bool				is_done();

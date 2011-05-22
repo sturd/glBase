@@ -82,3 +82,8 @@ player_data net_data::get_player_data()
 	tmp_buff = *tmp_ptr;
 	return tmp_buff;
 }
+
+player_data *net_data::get_player_data_ptr()
+{
+	return ( player_data * )&packet_content;
+}

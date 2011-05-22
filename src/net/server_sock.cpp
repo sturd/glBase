@@ -120,9 +120,9 @@ bool server_socket::is_done()
 	get_player_data() - Allow level_data object to call upon required
 						player data for displaying on screen.
  */
-player_data server_socket::get_player_data( short client_id )
+player_data *server_socket::get_player_data( short client_id )
 {
-	player_data rtn_data;
+	player_data *rtn_data = new player_data;
 	data_mutex.lock();
 	for( int i = 0; i < MAX_CLIENTS; ++i )
 		if( client_addr_lst[ i ] )
@@ -130,8 +130,9 @@ player_data server_socket::get_player_data( short client_id )
 				client_id	)
 			{	// Make a local copy of the needed player data to allow
 				// unlocking of the mutex before return.
-				rtn_data = client_addr_lst[ i ]->get_player_data();
-				std::cout << "X: " << rtn_data.get_x() << std::endl;
+				rtn_data->set_player_data(
+					client_addr_lst[ i ]->get_player_data_ptr() );
+				//std::cout << "X: " << rtn_data.get_x() << std::endl;
 				break;
 			}
 	data_mutex.unlock();
@@ -147,6 +148,9 @@ void server_socket::update_local_player( player_data *data )
 {
 	data_mutex.lock();
 	short tmp_id = 0;
+	if( !client_addr_lst[ 0 ] )
+		client_addr_lst[ 0 ] = new client_list( &local_addr, tmp_id );
+
 	client_addr_lst[ 0 ]->set_player_data( data, tmp_id );
 	data_mutex.unlock();
 }
@@ -205,7 +209,8 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
  */
 void server_socket::handle_game_data( net_data *data, struct sockaddr_in *addr )
 {
-	player_data tmp_data = data->get_player_data();
+	player_data *tmp_data = new player_data();
+	tmp_data->set_player_data( data->get_player_data_ptr() );
 	
 	short		 tmp_id	      = data->get_client_id();
 	data_mutex.lock();
@@ -215,7 +220,7 @@ void server_socket::handle_game_data( net_data *data, struct sockaddr_in *addr )
 				tmp_id )
 			{
 				client_addr_lst[ i ]->set_player_data( 
-					&tmp_data,
+					tmp_data,
 					tmp_id );
 				break;
 			}
