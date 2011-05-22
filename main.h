@@ -62,7 +62,7 @@ struct init_sock_dat
 	char			   *targ_addr;
 	unsigned short		targ_port;
 
-						init_sock_dat( short, char *, unsigned short );
+						init_sock_dat( short, const char *, unsigned short );
 };
 
 

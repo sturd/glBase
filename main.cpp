@@ -31,10 +31,10 @@
 
 using namespace std;
 
-init_sock_dat::init_sock_dat( short mode, char *ip, unsigned short port )
+init_sock_dat::init_sock_dat( short mode, const char *ip, unsigned short port )
 {
 	sock_mode = mode;
-	targ_addr = ip;
+	targ_addr = ( char * )ip;
 	targ_port = port;
 }
 
