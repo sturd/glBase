@@ -28,9 +28,11 @@ using namespace std;
 
 #include "leveldata.h"
 
-LevelData::LevelData( int socket_mode )
+LevelData::LevelData( init_sock_dat *socket_data )
 {
-	net_core = new socket_core( socket_mode, "127.0.1.1", 1987 );
+	net_core = new socket_core( socket_data->sock_mode,
+								socket_data->targ_addr,
+								socket_data->targ_port );
 
 	if( net_core->mode() == SOCKET_SERVER )
 	{
@@ -116,16 +118,16 @@ void LevelData::Execute()
 						Running = false;
 						break;
 
-					case SDLK_RIGHT:
+					case SDLK_d:
 						key_right_down = true;
 						break;
-					case SDLK_LEFT:
+					case SDLK_a:
 						key_left_down = true;
 						break;
-					case SDLK_UP:
+					case SDLK_w:
 						key_up_down = true;
 						break;
-					case SDLK_DOWN:
+					case SDLK_s:
 						key_down_down = true;
 						break;
 					default:
@@ -137,16 +139,16 @@ void LevelData::Execute()
 			case SDL_KEYUP:	/* Keyboard Release Event */
 				switch( KeyEvent.key.keysym.sym )
 				{
-					case SDLK_RIGHT:
+					case SDLK_d:
 						key_right_down = false;
 						break;
-					case SDLK_LEFT:
+					case SDLK_a:
 						key_left_down = false;
 						break;
-					case SDLK_UP:
+					case SDLK_w:
 						key_up_down = false;
 						break;
-					case SDLK_DOWN:
+					case SDLK_s:
 						key_down_down = false;
 						break;
 					default:

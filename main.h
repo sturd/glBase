@@ -45,26 +45,24 @@
 #define WIDTH	 800
 #define HEIGHT	 600
 
-#define UP		 0
-#define DOWN	 1
-#define LEFT	 2
-#define RIGHT	 3
-
 // Collision flags
 #define COLLECT	0
 #define DESTROY	1
 #define STOP	2
 
-#define CHR_UP "U"
-#define CHR_DN "D"
-#define CHR_LF "L"
-#define CHR_RT "R"
-
 #define CHR_CFG "image/char/char.cfg"
-
 
 #define MAX_LENGTH 32
 
 const float PI = 4.0f * atan( 1.0f );
+
+struct init_sock_dat
+{
+	short				sock_mode;
+	char			   *targ_addr;
+	unsigned short		targ_port;
+
+						init_sock_dat( short, char *, unsigned short );
+};
 
 

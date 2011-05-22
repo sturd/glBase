@@ -39,7 +39,7 @@ sprite::sprite( const char *texture, int xPos, int yPos, int frames )
 {
 	_X = xPos; _Y = yPos;
 	_xVel = 0, _yVel = 0;
-	_Angle = 45.0;
+	_Angle = 0.0f;
 	_FrameCount = frames;
 
 	_Reversed = false;
@@ -169,7 +169,7 @@ void sprite::DrawImage( void )
 
 	glPushMatrix();
 	glTranslatef( glX, glY, 0.0f );
-	//glRotatef( _Angle, 1.0f, 1.0f, 0.0f );
+	glRotatef( _Angle, 1.0f, 1.0f, 1.0f );
 
 	glBindTexture( GL_TEXTURE_2D, _tex_id[ _CurrentFrame ] );
 

@@ -31,6 +31,13 @@
 
 using namespace std;
 
+init_sock_dat::init_sock_dat( short mode, char *ip, unsigned short port )
+{
+	sock_mode = mode;
+	targ_addr = ip;
+	targ_port = port;
+}
+
 bool InitAudio()
 {
 	int Rate = 44100;
@@ -57,7 +64,7 @@ bool InitOGLVideo( SDL_Surface *screen )
 	SDL_WM_SetCaption( "Sturd's OpenGL Sandbox", NULL );
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
-    screen = SDL_SetVideoMode( WIDTH, HEIGHT, 32, SDL_OPENGL /*| SDL_FULLSCREEN*/ );
+    screen = SDL_SetVideoMode( WIDTH, HEIGHT, 32, SDL_OPENGL /*| SDL_FULLSCREEN */ );
     if ( !screen )
 	{
 		cout << "Unable to set video mode: " << SDL_GetError();
@@ -82,14 +89,18 @@ void SDLMain_Loop( char *args[] )
 		SocketError( "No arguments found." );
 
 	else if( !strcmp( args[ 1 ], "--server" ) )
-		Lvl1 = new LevelData( SOCKET_SERVER );
+		Lvl1 = new LevelData( new init_sock_dat( SOCKET_SERVER,
+												 "127.0.0.1",
+												 1987			) );
 
 	else if( !strcmp( args[ 1 ], "--client" ) )
 	{
 		if( !args[ 2 ] )
 			SocketError( "Invalid arguments for client mode." );
-
-		Lvl1 = new LevelData( SOCKET_CLIENT );
+		
+		Lvl1 = new LevelData( new init_sock_dat( SOCKET_CLIENT,
+												 args[ 2 ],
+												 1987			) );
 	}
 	//Mix_Music *music = Mix_LoadMUS( "summer.ogg" );
 	//Mix_Music *ring = Mix_LoadMUS( "ring.ogg" );

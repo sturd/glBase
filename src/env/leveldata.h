@@ -43,7 +43,7 @@ class LevelData
 	sprite		   *client_sprite;
 
 public:
-					LevelData( int );
+					LevelData( init_sock_dat * );
 	void			LoadData();
 	void			Execute();
 };
