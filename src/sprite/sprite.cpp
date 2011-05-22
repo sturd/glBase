@@ -3,9 +3,7 @@
  * Email: craig <at> sturd <dot> co <dot> uk
  * Example Usage: http://sturd.co.uk/
  *
- * sprite.cpp is the legal property of its developers, whose names
- * are too numerous to list here. Please refer to the COPYRIGHT
- * file distributed with this source distribution.
+ * sprite.cpp is the legal property of its developer.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -172,12 +170,6 @@ void sprite::DrawImage( void )
 	glPushMatrix();
 	glTranslatef( glX, glY, 0.0f );
 	//glRotatef( _Angle, 1.0f, 1.0f, 0.0f );
-	//if( _FrameCount > 4 )
-	//{
-	//	system( "cls" );
-	//	cout << "X: " << _X << endl;
-	//	cout << "Y: " << _Y << endl;
-	//}
 
 	glBindTexture( GL_TEXTURE_2D, _tex_id[ _CurrentFrame ] );
 

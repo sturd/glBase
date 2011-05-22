@@ -5,9 +5,7 @@
  * Email: craig <at> sturd <dot> co <dot> uk
  * Example Usage: http://sturd.co.uk/
  *
- * server_sock.cpp is the legal property of its developers, whose names
- * are too numerous to list here. Please refer to the COPYRIGHT
- * file distributed with this source distribution.
+ * server_sock.cpp is the legal property of its developer.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -109,6 +107,11 @@ void server_socket::listen()
 			else if( temp_data == PACKET_STAT_CONN_DAT )
 				handle_game_data( &temp_data, &inbnd_addr );
 	}
+}
+
+short server_socket::get_client_count()
+{
+	return ( short )client_count;
 }
 
 bool server_socket::is_done()

@@ -50,5 +50,6 @@ public:
 					   ~socket_core();
 	
 	short				mode();
+	short				get_client_count();
 	player_data		   *send_player_data( player_data * );
 };

@@ -5,9 +5,7 @@
  * Email: craig <at> sturd <dot> co <dot> uk
  * Example Usage: http://sturd.co.uk/
  *
- * error.cpp is the legal property of its developers, whose names
- * are too numerous to list here. Please refer to the COPYRIGHT
- * file distributed with this source distribution.
+ * error.cpp is the legal property of its developer.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

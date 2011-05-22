@@ -5,9 +5,7 @@
  * Email: craig <at> sturd <dot> co <dot> uk
  * Example Usage: http://sturd.co.uk/
  *
- * socket_core.cpp is the legal property of its developers, whose names
- * are too numerous to list here. Please refer to the COPYRIGHT
- * file distributed with this source distribution.
+ * socket_core.cpp is the legal property of its developer.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -82,6 +80,14 @@ void socket_core::init_ws2()
 short socket_core::mode()
 {
 	return mode_;
+}
+
+short socket_core::get_client_count()
+{
+	if( mode_ == SOCKET_CLIENT )
+		return -1;
+	else
+		return core_srv->get_client_count();
 }
 
 player_data *socket_core::send_player_data( player_data *data )

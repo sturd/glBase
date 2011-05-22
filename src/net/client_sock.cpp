@@ -6,9 +6,7 @@
  * Email: craig <at> sturd <dot> co <dot> uk
  * Example Usage: http://sturd.co.uk/
  *
- * client_sock.cpp is the legal property of its developers, whose names
- * are too numerous to list here. Please refer to the COPYRIGHT
- * file distributed with this source distribution.
+ * client_sock.cpp is the legal property of its developer.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -77,7 +75,6 @@ void client_socket::Send()
 
 void client_socket::send_player_data( player_data *data )
 {
-	//std::cout << client_id << std::endl;
 	net_data game_data( data, client_id );
 	data_size = sizeof( game_data );
 	if( sendto( sock, ( const char * )&game_data, data_size, 0,
