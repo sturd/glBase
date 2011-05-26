@@ -66,6 +66,7 @@ void client_socket::Send()
 
 	if( newData == PACKET_STAT_CONN_ACC )
 	{
+		std::cout << newData.get_client_id();
 		client_id = newData.get_client_id();
 		std::cout << "Successful connection established with server. ID: " <<
 					 client_id << std::endl;
@@ -76,7 +77,7 @@ void client_socket::Send()
 
 void client_socket::send_player_data( player_data *data )
 {
-	std::cout << data->get_height() << std::endl;
+	//std::cout << client_id << std::endl;
 	net_data game_data( data, client_id );
 	data_size = sizeof( game_data );
 	if( sendto( sock, ( const char * )&game_data, data_size, 0,

@@ -71,9 +71,9 @@ bool client_list::operator==( short id )const
 	get_player_data() - Expose player data in item to external
 						gameplay process.
  */
-player_data *client_list::get_player_data()
+player_data client_list::get_player_data()
 {
-	return &client_game_data_;
+	return client_game_data_;
 }
 
 void client_list::set_player_data( player_data *data, short cnt_id )

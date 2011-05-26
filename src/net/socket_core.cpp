@@ -95,7 +95,6 @@ player_data socket_core::send_player_data( player_data *data )
 	{
 		core_srv->update_local_player( data );
 		tmp_data = core_srv->get_player_data( 0 );
-		//std::cout << tmp_data.get_x() << std::endl;
 	}
 	return tmp_data;
 }

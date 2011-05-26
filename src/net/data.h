@@ -50,11 +50,11 @@ class net_data
 public:
 							net_data();
 							net_data( short );
-							net_data( player_data *, short );
+							net_data( player_data *, const short & );
 
 	bool 					operator==( const short & )const;
 
 	void					set_status( short );
 	short					get_client_id();
-	player_data			   *get_player_data();
+	player_data			   get_player_data();
 };

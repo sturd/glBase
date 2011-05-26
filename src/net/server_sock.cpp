@@ -97,6 +97,7 @@ void server_socket::listen()
 	net_data temp_data;
 	data_size = sizeof( inbnd_addr );
 
+	long loopCount = 0;
 	std::cout << "Listening..." << std::endl;
 	for( ; !is_done_ ; )
 		if( recvfrom( sock, ( char * )&temp_data, 255, 0,
@@ -107,7 +108,7 @@ void server_socket::listen()
 				handle_new( &temp_data, &inbnd_addr );
 			else if( temp_data == PACKET_STAT_CONN_DAT )
 				handle_game_data( &temp_data, &inbnd_addr );
-		}
+	}
 }
 
 bool server_socket::is_done()
@@ -121,7 +122,7 @@ bool server_socket::is_done()
  */
 player_data server_socket::get_player_data( short client_id )
 {
-	player_data temp;
+	player_data rtn_data;
 	data_mutex.lock();
 	for( int i = 0; i < MAX_CLIENTS; ++i )
 		if( client_addr_lst[ i ] )
@@ -129,12 +130,13 @@ player_data server_socket::get_player_data( short client_id )
 				client_id	)
 			{	// Make a local copy of the needed player data to allow
 				// unlocking of the mutex before return.
-				temp = *client_addr_lst[ i ]->get_player_data();
+				rtn_data = client_addr_lst[ i ]->get_player_data();
+				std::cout << "X: " << rtn_data.get_x() << std::endl;
 				break;
 			}
 	data_mutex.unlock();
 
-	return temp;
+	return rtn_data;
 }
 
 /*
@@ -180,11 +182,15 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
 	if( client_count < MAX_CLIENTS && is_unique )
 	{
 		short tmp_cc = ( short )client_count;
-		std::cout << tmp_cc << std::endl;
 		client_addr_lst[ client_count ] =
 			new client_list( addr, tmp_cc );
+		player_data tmp_pl_data = client_addr_lst[ client_count ]->get_player_data();
+		net_data *tmp_net_data = new net_data(
+			&tmp_pl_data,
+			tmp_cc );
+		tmp_net_data->set_status( PACKET_STAT_CONN_ACC );
 		// Inform client of successful connection
-		send_reply( new net_data( PACKET_STAT_CONN_ACC ), addr );
+		send_reply( tmp_net_data, addr );
 		++client_count;
 	}
 	data_mutex.unlock();
@@ -199,17 +205,18 @@ void server_socket::handle_new( net_data *data, struct sockaddr_in *addr )
  */
 void server_socket::handle_game_data( net_data *data, struct sockaddr_in *addr )
 {
+	player_data tmp_data = data->get_player_data();
+	
+	short		 tmp_id	      = data->get_client_id();
 	data_mutex.lock();
 	for( int i = 0; i < MAX_CLIENTS; ++i )
 		if( client_addr_lst[ i ] )
 			if( client_addr_lst[ i ]->get_id() ==
-				data->get_client_id() )
+				tmp_id )
 			{
-				player_data tmp = *data->get_player_data();
-				std::cout << "X Pos: " << tmp.get_x() << std::endl;
 				client_addr_lst[ i ]->set_player_data( 
-					data->get_player_data(),
-					data->get_client_id() );
+					&tmp_data,
+					tmp_id );
 				break;
 			}
 	data_mutex.unlock();
@@ -225,6 +232,8 @@ void server_socket::send_reply( net_data *data, struct sockaddr_in *addr )
 #else
 	socklen_t tmp_data_size = sizeof( *data );
 #endif
+
+	std::cout << data->get_client_id() << std::endl;
 
 	if( sendto( sock, ( const char * )data, tmp_data_size, 0,
 		( struct sockaddr * )addr, sizeof( *addr ) ) != tmp_data_size )

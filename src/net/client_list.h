@@ -61,7 +61,7 @@ public:
 
 	bool					operator==( short )const;
 
-	player_data			   *get_player_data();
+	player_data				get_player_data();
 	void					set_player_data( player_data *, short );
 	int						get_status();
 	void					dc_client();

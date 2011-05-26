@@ -27,6 +27,7 @@
  */
 
 #include <string.h>
+#include <iostream>
 
 #include "data.h"
 
@@ -40,7 +41,7 @@ net_data::net_data( short status )
 	set_status( status );
 }
 
-net_data::net_data( player_data *data, short client_id )
+net_data::net_data( player_data *data, const short &client_id )
 {	// Initialise game data packet
 	packet_status = PACKET_STAT_CONN_DAT;
 	char *temp_data = ( char * )data;
@@ -74,7 +75,10 @@ short net_data::get_client_id()
 	return client_id_;
 }
 
-player_data *net_data::get_player_data()
+player_data net_data::get_player_data()
 {
-	return ( player_data * )&packet_content;
+	player_data tmp_buff;
+	player_data *tmp_ptr = ( player_data * )&packet_content;
+	tmp_buff = *tmp_ptr;
+	return tmp_buff;
 }
