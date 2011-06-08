@@ -40,7 +40,9 @@ protected:
 	int				_Y;
 	int				_xVel;
 	int				_yVel;
+
 	float			_Angle;
+	float			_AngVel;
 
 	bool			_Reversed;
 	bool			_Paused;
@@ -66,9 +68,11 @@ public:
    	//std::string		get_player_data();
 	int				GetXVel( void );
 	int				GetYVel( void );
+	float			GetAngVel();
 
 	void			SetXVel( int );
 	void			SetYVel( int );
+	void			SetAngVel( float );
 
 	void			LoadConfig( char *, char * );
 	void			DrawImage( void );

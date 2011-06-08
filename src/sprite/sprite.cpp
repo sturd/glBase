@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <math.h>
 
 using namespace std;
 
@@ -40,6 +41,7 @@ sprite::sprite( const char *texture, int xPos, int yPos, int frames )
 	_X = xPos; _Y = yPos;
 	_xVel = 0, _yVel = 0;
 	_Angle = 0.0f;
+	_AngVel = 0.0f;
 	_FrameCount = frames;
 
 	_Reversed = false;
@@ -157,19 +159,29 @@ void sprite::DrawImage( void )
 	//glLoadIdentity();
 
 	// Working scale calculations!! :D
-	float W_RATIO = ( ( float )_Width	/ WIDTH )	* 2;
-	float H_RATIO = ( ( float )_Height	/ HEIGHT )	* 2;
+	float W_RATIO = ( ( float )_Width	/ WIDTH ) * 2;
+	float H_RATIO = ( ( float )_Height	/ HEIGHT ) * 2;
 
 	// Update positions based upon velocities...
 	_X += _xVel;
 	_Y += _yVel;
+	
+	// Add/subtract angular velocity to/from the current angle
+	_Angle += _AngVel;
 
 	float glX = pixToGLXCoord( _X );
 	float glY = pixToGLYCoord( _Y );
+	
+	// Calculate mid-points of sprite for a central rotation
+	float glMidX = pixToGLXCoord( _X + ( _Width  / 2 ) );
+	float glMidY = pixToGLYCoord( _Y + ( _Height / 2 ) - _Height );
 
 	glPushMatrix();
+	glTranslatef( glMidX, glMidY, 0.0f );
+		glRotatef( _Angle, 0.0f, 0.0f, 1.0f );
+	glTranslatef( -glMidX, -glMidY, 0.0f );
+
 	glTranslatef( glX, glY, 0.0f );
-	glRotatef( _Angle, 1.0f, 1.0f, 1.0f );
 
 	glBindTexture( GL_TEXTURE_2D, _tex_id[ _CurrentFrame ] );
 
@@ -272,6 +284,12 @@ int sprite::GetYVel( void )
 	return _yVel;
 }
 
+// Routine to return angular velocity
+float sprite::GetAngVel()
+{
+	return _AngVel;
+}
+
 // Routine to set velocity along X-Axis
 void sprite::SetXVel( int Vel )
 {
@@ -281,6 +299,12 @@ void sprite::SetXVel( int Vel )
 void sprite::SetYVel( int Vel )
 {
 	_yVel = Vel;
+}
+
+// Routine to set angular velocity
+void sprite::SetAngVel( float Vel )
+{
+	_AngVel = Vel;
 }
 
 // Routine to cause image to flip in horizontal direction
