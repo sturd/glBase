@@ -29,9 +29,11 @@ The apt package manager will take care of lower dependencies automatically.
 ### Server ###
 
 Unix/Linux:
+
 	./test --server
 
 Windows:
+
 	test --server
 
 ### Client ###
@@ -39,9 +41,11 @@ Windows:
 The client requires a running server in order to communicate.
 	
 Unix/Linux:
+
 	/test --client TARGET_IPV4_ADDRESS
 
 Windows:
+
 	test --client TARGET_IPV4_ADDRESS
 		
 An example of the TARGET_IPV4_ADDRESS would be '127.0.0.1' or the address of a remote
