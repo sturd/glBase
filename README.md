@@ -7,7 +7,8 @@ UDP server.  This listens out for incoming client requests.
 
 ## Requires ##
 
-This software is built upon a couple of supporting libraries that are required in your build system before the software can be compiled.  These libraries are listed below;
+This software is built upon a couple of supporting libraries that are required in your build system before the software can be compiled.  These libraries are listed below.
+
 ---
   - [libsdl](http://www.libsdl.org/)
   - [libsdl_mixer](http://www.libsdl.org/projects/SDL_mixer/)
