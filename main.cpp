@@ -113,6 +113,7 @@ void SDLMain_Loop( char *args[] )
 
 int main( int argc, char *argv[] )
 {
+	cout << PI << std::endl;
  	SDL_Surface *screen = new SDL_Surface;
 
 	if( !InitOGLVideo( screen ) )
