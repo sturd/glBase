@@ -1,7 +1,6 @@
 /* Copyright (C) 2011 Craig Sturdy
  *
  * Email: craig <at> sturd <dot> co <dot> uk
- * Example Usage: http://sturd.co.uk/
  *
  * sprite.cpp is the legal property of its developer.
  *
@@ -36,7 +35,7 @@ sprite::sprite( void )
 	_X = _Y = _xVel = _yVel = 0;
 }
 
-sprite::sprite( const char *texture, int xPos, int yPos, int frames )
+sprite::sprite( const char *texture, int xPos, int yPos, int frames, short local_id )
 {
 	_X = xPos; _Y = yPos;
 	_xVel = 0, _yVel = 0;
@@ -46,6 +45,8 @@ sprite::sprite( const char *texture, int xPos, int yPos, int frames )
 
 	_Reversed = false;
 	_Paused = false;
+	_id = local_id;
+
 	_CurrentFrame = 0;
 
 	TGAImg image;
@@ -89,38 +90,49 @@ void sprite::SetSprite( TGAImg &Img )
 	DeleteFrames();
 	_CurrentFrame = 0;
 	_FrameCount = Img.GetFrameCount();
-
-	// declare container for individual frames
-	// (10 frames max)
-	TGAImg *temp[ 10 ];
-
-	for( int init = 0; init < _FrameCount; ++init )
-	{
-		temp[ init ] = 
-			new TGAImg( Img.GetWidth(), Img.GetHeight(), Img.GetBPP() );
-
-		// Execute function to isolate frame
-		temp[ init ]->SetImg( Img.GetFrame( init ) );
-	}
-
 	_Height = Img.GetHeight();
 	_Width = Img.GetWidth() / _FrameCount;
 
-	for( int scan = 0; scan < _FrameCount; ++scan )
+	if( _FrameCount > 1 )
 	{
-		// Have OpenGL generate a texture object handle
-		glGenTextures( 1, &_tex_id[ scan ] );
-	 
-		// Bind the texture object
-		glBindTexture( GL_TEXTURE_2D, _tex_id[ scan ] );
-	 
-		// Set the texture's stretching properties
+		// declare container for individual frames
+		// (10 frames max)
+		TGAImg *temp[ 10 ];
+
+		for( int init = 0; init < _FrameCount; ++init )
+		{
+			temp[ init ] = 
+				new TGAImg( Img.GetWidth(), Img.GetHeight(), Img.GetBPP() );
+
+			// Execute function to isolate frame
+			temp[ init ]->SetImg( Img.GetFrame( init ) );
+		}
+
+		for( int scan = 0; scan < _FrameCount; ++scan )
+		{
+			// Have OpenGL generate a texture object handle
+			glGenTextures( 1, &_tex_id[ scan ] );
+		 
+			// Bind the texture object
+			glBindTexture( GL_TEXTURE_2D, _tex_id[ scan ] );
+		 
+			// Set the texture's stretching properties
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+
+			// Export images to GPU
+			glTexImage2D( GL_TEXTURE_2D, 0, Img.GetBPP(), _Width, _Height, 0, 
+						  GL_RGBA, GL_UNSIGNED_BYTE, temp[ scan ]->GetImg()  );
+		}
+	}
+	else
+	{
+		glGenTextures( 1, &_tex_id[ 0 ] );
+		glBindTexture( GL_TEXTURE_2D, _tex_id[ 0 ] );
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-
-		// Export images to GPU
 		glTexImage2D( GL_TEXTURE_2D, 0, Img.GetBPP(), _Width, _Height, 0, 
-					  GL_RGBA, GL_UNSIGNED_BYTE, temp[ scan ]->GetImg() );
+					  GL_RGBA, GL_UNSIGNED_BYTE, Img.GetImg()  );
 	}
 }
 
@@ -158,9 +170,8 @@ void sprite::DrawImage( void )
 
 	//glLoadIdentity();
 
-	// Working scale calculations!! :D
-	float W_RATIO = ( ( float )_Width	/ WIDTH ) * 2;
-	float H_RATIO = ( ( float )_Height	/ HEIGHT ) * 2;
+	float W_RATIO = ( ( ( float )_Width	 - sin( _Angle ) )	/ WIDTH ) * 2;
+	float H_RATIO = ( ( ( float )_Height - cos( _Angle ) )	/ HEIGHT ) * 2;
 
 	// Update positions based upon velocities...
 	_X += _xVel;
@@ -168,6 +179,9 @@ void sprite::DrawImage( void )
 	
 	// Add/subtract angular velocity to/from the current angle
 	_Angle += _AngVel;
+
+	if( _Angle > 360 )
+		_Angle -= 360;
 
 	float glX = pixToGLXCoord( _X );
 	float glY = pixToGLYCoord( _Y );
@@ -329,17 +343,18 @@ void sprite::Rotate( float Angle )
 
 void sprite::set_player_data( player_data *data )
 {
-	_Height = data->get_height();
-	_Width  = data->get_width();
-	_FrameCount = data->get_frame_count();
+	_Height =		data->get_height();
+	_Width  =		data->get_width();
+	_FrameCount =	data->get_frame_count();
 	_CurrentFrame = data->get_current_frame();
-	_X = data->get_x();
-	_Y = data->get_y();
-	_xVel = data->get_x_vel();
-	_yVel = data->get_y_vel();
-	_Angle = data->get_angle();
-	_Reversed = data->is_reversed();
-	_Paused = data->is_paused();
+	_X =			data->get_x();
+	_Y =			data->get_y();
+	_xVel =			data->get_x_vel();
+	_yVel =			data->get_y_vel();
+	_Angle =		data->get_angle();
+	_Reversed =		data->is_reversed();
+	_Paused =		data->is_paused();
+	_id =			data->get_id();
 }
 
 player_data *sprite::get_player_data()

@@ -23,8 +23,12 @@
 
 #pragma once
 #include "../../main.h"
-#include "../sprite/sprite.h"
 #include "../net/socket_core.h"
+
+#include "../sprite/sprite.h"
+#include "player.h"
+
+#include "../input/input_handler.h"
 
 #define SECT_MAX 	80
 #define LVL_PTH 	"image/level1/level.cfg"
@@ -33,14 +37,12 @@
 class LevelData
 {
 	socket_core	   *net_core;
-					//LevelData();
-	bool			key_right_down;
-	bool			key_left_down;
-	bool			key_up_down;
-	bool			key_down_down;
-	
-	sprite		   *sonic;
-	sprite		   *client_sprite;
+
+	input_handler  *inputs;
+	input_init_data init_device;
+
+	short			player_count;
+	player		   *player_sprite[ 6 ];
 
 public:
 					LevelData( init_sock_dat * );

@@ -3,7 +3,6 @@
  * Copyright (C) 2011 Craig Sturdy
  *
  * Email: craig <at> sturd <dot> co <dot> uk
- * Example Usage: http://sturd.co.uk/
  *
  * player_data.h is the legal property of its developer.
  *
@@ -41,6 +40,7 @@ class player_data
 
 	bool			_Reversed;
 	bool			_Paused;
+	short			_id;
 
 public:
 					player_data();
@@ -58,5 +58,5 @@ public:
 	float			get_angle();
 	bool			is_reversed();
 	bool			is_paused();
-	
+	short			get_id();
 };

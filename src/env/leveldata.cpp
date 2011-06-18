@@ -33,23 +33,12 @@ LevelData::LevelData( init_sock_dat *socket_data )
 	net_core = new socket_core( socket_data->sock_mode,
 								socket_data->targ_addr,
 								socket_data->targ_port );
+								
+	inputs = new input_handler();
 
-	if( net_core->mode() == SOCKET_SERVER )
-	{
-		sonic = new sprite( "media/image/run.tga", 100, 100, 8 );
-		client_sprite = new sprite( "media/image/run.tga", 250, 250, 8 );
-	}
-	else if( net_core->mode() == SOCKET_CLIENT )
-	{
-		sonic = new sprite( "media/image/run.tga", 250, 250, 8 );
-		player_data *new_data = sonic->get_player_data();
-		net_core->send_player_data( new_data );
-	}
-	
-	key_right_down = false;
-	key_left_down = false;
-	key_up_down = false;
-	key_down_down = false;
+	for( int i = 0; i < 6; ++i )
+		player_sprite[ i ] = 0;
+	player_count = 0;
 }
 
 void LevelData::LoadData()
@@ -92,7 +81,6 @@ void LevelData::LoadData()
 				}
 			}
 		}
-
 	}
 }
 
@@ -105,89 +93,23 @@ void LevelData::Execute()
 	// Loop to contain whole running of game (maybe)
 	while( Running )
 	{
-		// Listen for keystrokes
-		while( SDL_PollEvent( &KeyEvent ) )
+	
+		init_device = inputs->wants_in();
+		if( init_device.mode != 0 )
 		{
-			switch( KeyEvent.type )
-			{
-			case SDL_KEYDOWN:	/* Keyboard Press Event */
-				switch( KeyEvent.key.keysym.sym )
-				{
-					case SDLK_ESCAPE:
-						// Escape pressed, break from main loop
-						Running = false;
-						break;
+			player_sprite[ player_count ] = new player( 100, 100, init_device );
+			player_sprite[ player_count ]->set_device(
+				inputs->device_pointer( init_device ) );
 
-					case SDLK_d:
-						key_right_down = true;
-						break;
-					case SDLK_a:
-						key_left_down = true;
-						break;
-					case SDLK_w:
-						key_up_down = true;
-						break;
-					case SDLK_s:
-						key_down_down = true;
-						break;
-					default:
-						break;
-				}
-			default:
-				break;
-
-			case SDL_KEYUP:	/* Keyboard Release Event */
-				switch( KeyEvent.key.keysym.sym )
-				{
-					case SDLK_d:
-						key_right_down = false;
-						break;
-					case SDLK_a:
-						key_left_down = false;
-						break;
-					case SDLK_w:
-						key_up_down = false;
-						break;
-					case SDLK_s:
-						key_down_down = false;
-						break;
-					default:
-						break;
-				}
-			}
+			++player_count;
 		}
 
 		glClearColor( 0.53125f, 0.546875f, 0.53125, 0.5f );
+
 		glClear( GL_COLOR_BUFFER_BIT );
 
-		if( key_right_down )
-			sonic->SetXVel( sonic->GetXVel() + 1 );
-			
-		else
-			sonic->SetXVel( sonic->GetXVel() - 1 );
-
-		if( key_left_down )
-			sonic->SetXVel( sonic->GetXVel() - 1 );
-			
-		else
-			sonic->SetXVel( sonic->GetXVel() + 1 );
-
-		sonic->DrawImage();
-		player_data tmp_plyr_data;
-		if( net_core->mode() == SOCKET_SERVER )
-		{
-			tmp_plyr_data.set_player_data(
-				net_core->send_player_data( sonic->get_player_data() ) );
-			if( tmp_plyr_data.get_height() != 0 )
-				client_sprite->set_player_data( &tmp_plyr_data );
-
-			client_sprite->DrawImage();
-		}
-		else if( net_core->mode() == SOCKET_CLIENT )
-		{
-			player_data *plr_data = sonic->get_player_data();
-			net_core->send_player_data( plr_data );
-		}
+		for( int i = 0; i < player_count; ++i )
+			player_sprite[ i ]->process_player();
 
 
 		SDL_GL_SwapBuffers();

@@ -47,6 +47,8 @@ protected:
 	bool			_Reversed;
 	bool			_Paused;
 
+	short			_id;
+
 	GLuint			_tex_id[ 10 ];
 	void			DeleteFrames();
 	void			SetPosition( int, int );
@@ -60,7 +62,7 @@ protected:
 
 public:
 					sprite( void );
-					sprite( const char *, int, int, int );
+					sprite( const char *, int, int, int, short );
 					sprite( char *, char *, int, int );
 					sprite( char * );
 				   ~sprite( void );

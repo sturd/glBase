@@ -38,6 +38,7 @@ player_data::player_data()
 	_Angle = 0.0f;
 	_Reversed = false;
 	_Paused = false;
+	_id = 0;
 }
 
 player_data &player_data::operator=( const player_data &data )
@@ -58,6 +59,7 @@ void player_data::set_player_data( player_data *data )
 	_Angle =		data->get_angle();
 	_Reversed =		data->is_reversed();
 	_Paused =		data->is_paused();
+	_id =			data->get_id();
 }
 
 int player_data::get_width()
@@ -113,4 +115,9 @@ bool player_data::is_reversed()
 bool player_data::is_paused()
 {
 	return _Paused;
+}
+
+short player_data::get_id()
+{
+	return _id;
 }
