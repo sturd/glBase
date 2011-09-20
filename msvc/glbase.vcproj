@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="SDL.lib SDLmain.lib SDL_mixer.lib opengl32.lib ws2_32.lib"
+				AdditionalDependencies="SDL.lib SDLmain.lib SDL_mixer.lib opengl32.lib glu32.lib ws2_32.lib XInput.lib"
 				LinkIncremental="2"
 				IgnoreDefaultLibraryNames="msvcrt.lib"
 				GenerateDebugInformation="true"
@@ -171,6 +171,14 @@
 		<Filter
 			Name="src"
 			>
+			<File
+				RelativePath="..\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\main.h"
+				>
+			</File>
 			<Filter
 				Name="env"
 				>
@@ -180,6 +188,14 @@
 				</File>
 				<File
 					RelativePath="..\src\env\leveldata.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\env\player.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\env\player.h"
 					>
 				</File>
 			</Filter>
@@ -271,15 +287,43 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="input"
+				>
+				<File
+					RelativePath="..\src\input\input_handler.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\input\input_handler.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\input\input_type.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\input\input_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\input\keyboard.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\input\keyboard.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\input\tsz_pad.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\input\tsz_pad.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
-		<File
-			RelativePath="..\main.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\main.h"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

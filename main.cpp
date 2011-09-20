@@ -76,8 +76,9 @@ bool InitOGLVideo( SDL_Surface *screen )
     glViewport( 0, 0, WIDTH, HEIGHT );
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
+	//gluOrtho2D( 0, WIDTH, 0, HEIGHT );
+    //glMatrixMode( GL_MODELVIEW );
+    //glLoadIdentity();
 
 	return true;
 }

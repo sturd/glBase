@@ -27,10 +27,10 @@
 #include "../net/player_data.h"
 #include "tga.h"
 
-class sprite
+class sprite : public player_data
 {
 protected:
-	int				_Height;
+	/*int				_Height;
 	int				_Width;
 
 	int				_FrameCount;
@@ -47,7 +47,7 @@ protected:
 	bool			_Reversed;
 	bool			_Paused;
 
-	short			_id;
+	short			_id;*/
 
 	GLuint			_tex_id[ 10 ];
 	void			DeleteFrames();

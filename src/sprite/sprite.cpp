@@ -36,26 +36,19 @@ sprite::sprite( void )
 }
 
 sprite::sprite( const char *texture, int xPos, int yPos, int frames, short local_id )
+: player_data()
 {
-	_X = xPos; _Y = yPos;
-	_xVel = 0, _yVel = 0;
-	_Angle = 0.0f;
-	_AngVel = 0.0f;
-	_FrameCount = frames;
-
-	_Reversed = false;
-	_Paused = false;
-	_id = local_id;
-
-	_CurrentFrame = 0;
-
 	TGAImg image;
-	image.Load( ( char * )texture, _FrameCount );
+	image.Load( ( char * )texture, frames );
+	_X = xPos;
+	_Y = yPos;
+	_id = local_id;
 
 	SetSprite( image );
 }
 
 sprite::sprite( char *ID, char *Path, int xPos, int yPos )
+: player_data()
 {
 	SetPosition( xPos, yPos );
 	LoadConfig( ID, Path );
@@ -170,8 +163,8 @@ void sprite::DrawImage( void )
 
 	//glLoadIdentity();
 
-	float W_RATIO = ( ( ( float )_Width	 - sin( _Angle ) )	/ WIDTH ) * 2;
-	float H_RATIO = ( ( ( float )_Height - cos( _Angle ) )	/ HEIGHT ) * 2;
+	float W_RATIO = ( ( float )_Width / WIDTH ) * 2;
+	float H_RATIO = ( ( float )_Height / HEIGHT ) * 2;
 
 	// Update positions based upon velocities...
 	_X += _xVel;
@@ -197,10 +190,10 @@ void sprite::DrawImage( void )
 
 	glTranslatef( glX, glY, 0.0f );
 
-	glBindTexture( GL_TEXTURE_2D, _tex_id[ _CurrentFrame ] );
+	//glBindTexture( GL_TEXTURE_2D, _tex_id[ _CurrentFrame ] );
 
-	glEnable( GL_BLEND );
-	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+	//glEnable( GL_BLEND );
+	//glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
 	glBegin( GL_QUADS );
 		if( _Reversed )
@@ -341,7 +334,7 @@ void sprite::Rotate( float Angle )
 	_Angle = Angle;
 }
 
-void sprite::set_player_data( player_data *data )
+/*void sprite::set_player_data( player_data *data )
 {
 	_Height =		data->get_height();
 	_Width  =		data->get_width();
@@ -355,7 +348,7 @@ void sprite::set_player_data( player_data *data )
 	_Reversed =		data->is_reversed();
 	_Paused =		data->is_paused();
 	_id =			data->get_id();
-}
+}*/
 
 player_data *sprite::get_player_data()
 {

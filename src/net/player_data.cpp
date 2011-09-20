@@ -36,6 +36,7 @@ player_data::player_data()
 	_xVel = 0;
 	_yVel = 0;
 	_Angle = 0.0f;
+	_AngVel = 0.5f;
 	_Reversed = false;
 	_Paused = false;
 	_id = 0;
@@ -46,9 +47,9 @@ player_data &player_data::operator=( const player_data &data )
 	return *this;
 }
 
-void player_data::set_player_data( player_data *data )
+void player_data::SetPlayerData( player_data *data )
 {
-	_Height	=		data->get_height();
+	/*_Height	=		data->get_height();
 	_Width  =		data->get_width();
 	_FrameCount =	data->get_frame_count();
 	_CurrentFrame =	data->get_current_frame();
@@ -59,65 +60,67 @@ void player_data::set_player_data( player_data *data )
 	_Angle =		data->get_angle();
 	_Reversed =		data->is_reversed();
 	_Paused =		data->is_paused();
-	_id =			data->get_id();
+	_id =			data->get_id();*/
+
+	*this = *data;
 }
 
-int player_data::get_width()
+int player_data::GetWidth()
 {
 	return _Width;
 }
 
-int player_data::get_height()
+int player_data::GetHeight()
 {
 	return _Height;
 }
 
-int player_data::get_frame_count()
+int player_data::GetFrameCount()
 {
 	return _FrameCount;
 }
 
-int player_data::get_current_frame()
+int player_data::GetCurrentFrame()
 {
 	return _CurrentFrame;
 }
 
-int player_data::get_x()
+int player_data::GetXPos()
 {
 	return _X;
 }
 
-int player_data::get_y()
+int player_data::GetYPos()
 {
 	return _Y;
 }
 
-int player_data::get_x_vel()
+int player_data::GetXVel()
 {
 	return _xVel;
 }
 
-int player_data::get_y_vel()
+int player_data::GetYVel()
 {
 	return _yVel;
 }
 
-float player_data::get_angle()
+float player_data::GetAngle()
 {
 	return _Angle;
 }
 
-bool player_data::is_reversed()
+bool player_data::IsReversed()
 {
 	return _Reversed;
 }
 
-bool player_data::is_paused()
+bool player_data::IsPaused()
 {
 	return _Paused;
 }
 
-short player_data::get_id()
+short player_data::GetID()
 {
 	return _id;
 }

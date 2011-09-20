@@ -87,7 +87,7 @@ void LevelData::LoadData()
 void LevelData::Execute()
 {
 
-	SDL_Event KeyEvent;
+	//SDL_Event KeyEvent;
 	bool Running = true;
 
 	// Loop to contain whole running of game (maybe)

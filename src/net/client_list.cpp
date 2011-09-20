@@ -81,7 +81,7 @@ player_data *client_list::get_player_data()
 
 void client_list::set_player_data( player_data *data, short cnt_id )
 {
-	client_game_data_.set_player_data( data );
+	client_game_data_.SetPlayerData( data );
 }
 
 /*

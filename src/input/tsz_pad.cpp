@@ -81,10 +81,7 @@ bool tsz_pad::wants_in( unsigned short pad )
  */
 bool tsz_pad::button_down( unsigned short pad, WORD button )
 {
-	if( state[ pad ].Gamepad.wButtons == button )
-		return true;
-
-	return false;
+	return ( state[ pad ].Gamepad.wButtons == button );
 }
 
 short tsz_pad::analog_state( unsigned short pad, short button )
